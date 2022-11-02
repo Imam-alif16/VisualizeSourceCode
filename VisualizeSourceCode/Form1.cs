@@ -25,64 +25,73 @@ namespace VisualizeSourceCode
             string filePath = String.Empty;
             string fileExt = String.Empty;
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                filePath = openFileDialog.FileName;
-                fileExt = Path.GetExtension(filePath);
-                if (fileExt.CompareTo(".txt") == 0)
+                StringBuilder builder = new StringBuilder();
+                foreach (string file in openFileDialog.FileNames)
                 {
-                    try
+                    filePath = file;
+                    fileExt = Path.GetExtension(filePath);
+                    if (fileExt.CompareTo(".txt") == 0)
                     {
-                        StreamReader reader = new StreamReader(filePath);
-                        StringBuilder builder = new StringBuilder();
-                        string line = "";
-
-                        while ((line = reader.ReadLine()) != null)
+                        try
                         {
-                            if ((line.Contains("class")))
+                            StreamReader reader = new StreamReader(filePath);
+                            
+                            string line = "";
+
+                            while ((line = reader.ReadLine()) != null)
                             {
-                                string[] lineArr = line.Split(' ');
-                                if (!(line.Contains("extends")))
+                                if ((line.Contains("class")))
                                 {
-                                    var kelas = new Kelas(lineArr[1], "");
-                                    KelasCollection.Add(kelas);
+                                    string[] lineArr = line.Split(' ');
+                                    if (!(line.Contains("extends")))
+                                    {
+                                        var kelas = new Kelas(lineArr[1], "");
+                                        KelasCollection.Add(kelas);
+                                    }
+                                    else
+                                    {
+                                        var kelas = new Kelas(lineArr[1], lineArr[3]);
+                                        KelasCollection.Add(kelas);
+                                    }
                                 }
-                                else
-                                {
-                                    var kelas = new Kelas(lineArr[1], lineArr[3]);
-                                    KelasCollection.Add(kelas);
-                                }
+
+                                builder.AppendLine(line);
                             }
 
-                            builder.AppendLine(line);
-                        }
+                            builder.AppendLine("----------------------------------");
+                            reader.Close();
+                            richTextBox1.Text = builder.ToString();
 
-
-                        reader.Close();
-                        richTextBox1.Text = builder.ToString();
-
-                        int hitung = 0;
-                        foreach (Kelas item in KelasCollection)
-                        {
-                            Console.WriteLine(++hitung);
-                            Console.WriteLine("nama class : " + item.namaKelas);
-                            foreach (string super in item.superKelas)
-                            {
-                                Console.WriteLine("superClass : " + super);
-                            }
 
                         }
-
-                        //dataGridView1.DataSource = KelasCollection;
-                        foreach (Kelas item in KelasCollection)
+                        catch (Exception ex)
                         {
-                            dataGridView1.Rows.Add(item.namaKelas, item.superKelas[0]);
+                            Console.WriteLine(ex.Message);
                         }
                     }
-                    catch (Exception ex)
+
+                }
+
+
+                int hitung = 0;
+                foreach (Kelas item in KelasCollection)
+                {
+                    Console.WriteLine(++hitung);
+                    Console.WriteLine("nama class : " + item.namaKelas);
+                    foreach (string super in item.superKelas)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("superClass : " + super);
                     }
+
+                }
+
+                //dataGridView1.DataSource = KelasCollection;
+                foreach (Kelas item in KelasCollection)
+                {
+                    dataGridView1.Rows.Add(item.namaKelas, item.superKelas[0]);
                 }
             }
         }
@@ -98,6 +107,11 @@ namespace VisualizeSourceCode
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
         {
 
         }
