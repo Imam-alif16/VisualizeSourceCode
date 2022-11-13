@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace VisualizeSourceCode
 {
@@ -20,7 +21,7 @@ namespace VisualizeSourceCode
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<Kelas> KelasCollection = new List<Kelas>();
+            List<ClassDataType> ClassCollection = new List<ClassDataType>();
 
             string filePath = String.Empty;
             string fileExt = String.Empty;
@@ -38,7 +39,7 @@ namespace VisualizeSourceCode
                         try
                         {
                             StreamReader reader = new StreamReader(filePath);
-                            
+
                             string line = "";
 
                             while ((line = reader.ReadLine()) != null)
@@ -48,13 +49,13 @@ namespace VisualizeSourceCode
                                     string[] lineArr = line.Split(' ');
                                     if (!(line.Contains("extends")))
                                     {
-                                        var kelas = new Kelas(lineArr[1], "");
-                                        KelasCollection.Add(kelas);
+                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], "");
+                                        ClassCollection.Add(kelas);
                                     }
                                     else
                                     {
-                                        var kelas = new Kelas(lineArr[1], lineArr[3]);
-                                        KelasCollection.Add(kelas);
+                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1]);
+                                        ClassCollection.Add(kelas);
                                     }
                                 }
 
@@ -77,29 +78,33 @@ namespace VisualizeSourceCode
 
 
                 int hitung = 0;
-                foreach (Kelas item in KelasCollection)
+                foreach (ClassDataType item in ClassCollection)
                 {
                     Console.WriteLine(++hitung);
-                    Console.WriteLine("nama class : " + item.namaKelas);
-                    foreach (string super in item.superKelas)
+                    Console.WriteLine("nama class : " + item.className);
+                    foreach (string super in item.superClassList)
                     {
                         Console.WriteLine("superClass : " + super);
                     }
 
                 }
 
-                //dataGridView1.DataSource = KelasCollection;
-                foreach (Kelas item in KelasCollection)
+                //ClassesData.DataSource = ClassCollection;
+                foreach (var item in ClassCollection)
                 {
-                    dataGridView1.Rows.Add(item.namaKelas, item.superKelas[0]);
+                    if (!item.superClassList.Any())
+                    {
+                        dataGridView1.Rows.Add(item.className);
+                    }
+                    else
+                    {
+                        dataGridView1.Rows.Add(item.className, item.superClassList[0]);
+                    }
+
                 }
             }
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -112,6 +117,26 @@ namespace VisualizeSourceCode
         }
 
         private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void diagramView1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void diagram3_NodeCreated(object sender, MindFusion.Diagramming.NodeEventArgs e)
+        {
+
+        }
+
+        private void diagramView1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void diagram1_NodeCreated(object sender, MindFusion.Diagramming.NodeEventArgs e)
         {
 
         }
