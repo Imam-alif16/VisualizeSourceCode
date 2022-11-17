@@ -8,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
+using MindFusion.Diagramming;
+using System.Xml;
+using Path = System.IO.Path;
+using MindFusion.Diagramming.Layout;
 
 namespace VisualizeSourceCode
 {
@@ -19,9 +22,10 @@ namespace VisualizeSourceCode
             InitializeComponent();
         }
 
+        List<ClassDataType> ClassCollection = new List<ClassDataType>();
+
         private void button1_Click(object sender, EventArgs e)
         {
-            List<ClassDataType> ClassCollection = new List<ClassDataType>();
 
             string filePath = String.Empty;
             string fileExt = String.Empty;
@@ -44,7 +48,7 @@ namespace VisualizeSourceCode
 
                             while ((line = reader.ReadLine()) != null)
                             {
-                                if ((line.Contains("class")))
+                                if ((line.Contains("class"))) // class nama
                                 {
                                     string[] lineArr = line.Split(' ');
                                     if (!(line.Contains("extends")))
@@ -102,7 +106,15 @@ namespace VisualizeSourceCode
                     }
 
                 }
+
+
+
             }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
         }
 
 
@@ -139,6 +151,38 @@ namespace VisualizeSourceCode
         private void diagram1_NodeCreated(object sender, MindFusion.Diagramming.NodeEventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, DiagramNode> nodeMap = new Dictionary<string, DiagramNode>();
+            RectangleF bounds = new RectangleF(0, 0, 18, 6);
+
+            XmlDocument document = new XmlDocument();
+            document.Load("SampleGraph.xml");
+
+            // Load node data
+            XmlNodeList nodes = document.SelectNodes("/Graph/Nodes/Node");
+            foreach (XmlElement node in nodes)
+            {
+                ShapeNode diagramNode = diagram1.Factory.CreateShapeNode(bounds);
+                nodeMap[node.GetAttribute("id")] = diagramNode;
+                diagramNode.Text = node.GetAttribute("name");
+            }
+
+            // Load link data
+            XmlNodeList links = document.SelectNodes("/Graph/Links/Link");
+            foreach (XmlElement link in links)
+            {
+                diagram1.Factory.CreateDiagramLink(
+                    nodeMap[link.GetAttribute("origin")],
+                    nodeMap[link.GetAttribute("target")]);
+            }
+
+            // Arrange the graph
+            LayeredLayout layout = new LayeredLayout();
+            layout.LayerDistance = 12;
+            layout.Arrange(diagram1);
         }
     }
 }

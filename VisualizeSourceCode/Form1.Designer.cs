@@ -31,16 +31,17 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.diagram1 = new MindFusion.Diagramming.Diagram();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
-            this.diagram1 = new MindFusion.Diagramming.Diagram();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -62,6 +63,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Controls.Add(this.diagramView1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
@@ -71,6 +73,22 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Visualize";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(5, 5);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(79, 31);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Visualize";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // diagram1
+            // 
+            this.diagram1.TouchThreshold = 0F;
+            this.diagram1.NodeCreated += new System.EventHandler<MindFusion.Diagramming.NodeEventArgs>(this.diagram1_NodeCreated);
             // 
             // tabPage1
             // 
@@ -157,17 +175,12 @@
             // 
             this.diagramView1.Diagram = this.diagram1;
             this.diagramView1.LicenseKey = null;
-            this.diagramView1.Location = new System.Drawing.Point(5, 5);
+            this.diagramView1.Location = new System.Drawing.Point(5, 41);
             this.diagramView1.Name = "diagramView1";
-            this.diagramView1.Size = new System.Drawing.Size(910, 456);
+            this.diagramView1.Size = new System.Drawing.Size(910, 420);
             this.diagramView1.TabIndex = 0;
             this.diagramView1.Text = "diagramView1";
             this.diagramView1.Click += new System.EventHandler(this.diagramView1_Click_1);
-            // 
-            // diagram1
-            // 
-            this.diagram1.TouchThreshold = 0F;
-            this.diagram1.NodeCreated += new System.EventHandler<MindFusion.Diagramming.NodeEventArgs>(this.diagram1_NodeCreated);
             // 
             // Form1
             // 
@@ -202,8 +215,9 @@
         private System.Windows.Forms.BindingSource ClassesData;
         private System.Windows.Forms.DataGridViewTextBoxColumn className;
         private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
-        private MindFusion.Diagramming.WinForms.DiagramView diagramView1;
         private MindFusion.Diagramming.Diagram diagram1;
+        private System.Windows.Forms.Button button2;
+        private MindFusion.Diagramming.WinForms.DiagramView diagramView1;
     }
 }
 
