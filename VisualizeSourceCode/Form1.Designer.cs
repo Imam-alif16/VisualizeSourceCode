@@ -32,16 +32,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
+            this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
             this.diagram1 = new MindFusion.Diagramming.Diagram();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
+            this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.target = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -85,6 +87,17 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // diagramView1
+            // 
+            this.diagramView1.Diagram = this.diagram1;
+            this.diagramView1.LicenseKey = null;
+            this.diagramView1.Location = new System.Drawing.Point(5, 41);
+            this.diagramView1.Name = "diagramView1";
+            this.diagramView1.Size = new System.Drawing.Size(910, 420);
+            this.diagramView1.TabIndex = 0;
+            this.diagramView1.Text = "diagramView1";
+            this.diagramView1.Click += new System.EventHandler(this.diagramView1_Click_1);
+            // 
             // diagram1
             // 
             this.diagram1.TouchThreshold = 0F;
@@ -112,7 +125,9 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.className,
-            this.superClass});
+            this.superClass,
+            this.Id,
+            this.target});
             this.dataGridView1.Location = new System.Drawing.Point(381, 41);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
@@ -122,23 +137,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(537, 423);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // className
-            // 
-            this.className.DataPropertyName = "className";
-            this.className.HeaderText = "Class Name";
-            this.className.MinimumWidth = 6;
-            this.className.Name = "className";
-            this.className.ReadOnly = true;
-            // 
-            // superClass
-            // 
-            this.superClass.DataPropertyName = "superClass";
-            this.superClass.HeaderText = "Super Class";
-            this.superClass.MinimumWidth = 6;
-            this.superClass.Name = "superClass";
-            this.superClass.ReadOnly = true;
-            this.superClass.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
             // richTextBox1
             // 
@@ -171,16 +169,36 @@
             this.tabControl1.Size = new System.Drawing.Size(928, 492);
             this.tabControl1.TabIndex = 4;
             // 
-            // diagramView1
+            // className
             // 
-            this.diagramView1.Diagram = this.diagram1;
-            this.diagramView1.LicenseKey = null;
-            this.diagramView1.Location = new System.Drawing.Point(5, 41);
-            this.diagramView1.Name = "diagramView1";
-            this.diagramView1.Size = new System.Drawing.Size(910, 420);
-            this.diagramView1.TabIndex = 0;
-            this.diagramView1.Text = "diagramView1";
-            this.diagramView1.Click += new System.EventHandler(this.diagramView1_Click_1);
+            this.className.DataPropertyName = "className";
+            this.className.HeaderText = "Class Name";
+            this.className.MinimumWidth = 6;
+            this.className.Name = "className";
+            this.className.ReadOnly = true;
+            // 
+            // superClass
+            // 
+            this.superClass.DataPropertyName = "superClass";
+            this.superClass.HeaderText = "Super Class";
+            this.superClass.MinimumWidth = 6;
+            this.superClass.Name = "superClass";
+            this.superClass.ReadOnly = true;
+            this.superClass.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            this.Id.ReadOnly = true;
+            // 
+            // target
+            // 
+            this.target.DataPropertyName = "target";
+            this.target.HeaderText = "target";
+            this.target.Name = "target";
+            this.target.ReadOnly = true;
             // 
             // Form1
             // 
@@ -213,11 +231,13 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.BindingSource ClassesData;
-        private System.Windows.Forms.DataGridViewTextBoxColumn className;
-        private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
         private MindFusion.Diagramming.Diagram diagram1;
         private System.Windows.Forms.Button button2;
         private MindFusion.Diagramming.WinForms.DiagramView diagramView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn className;
+        private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn target;
     }
 }
 

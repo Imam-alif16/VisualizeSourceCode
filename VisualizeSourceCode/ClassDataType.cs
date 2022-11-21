@@ -9,9 +9,10 @@ namespace VisualizeSourceCode
     internal class ClassDataType
     {
         public int id { get; set; }
+        public int target { get; set; }
         public string className { get; set; }
 
-        public List<string> superClassList = new List<string>();        
+        public List<string> superClassList = new List<string>();
 
         public ClassDataType(string aClassName, string aSuperClass)
         {
