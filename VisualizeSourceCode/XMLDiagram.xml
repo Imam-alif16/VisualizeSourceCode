@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Graph>
 <Nodes>
-<Node id="1" name="Vehicle" />
-<Node id="2" name="Car" />
-<Node id="3" name="Bus" />
-<Node id="4" name="Animal" />
-<Node id="5" name="Bird" />
+<Node id="1" name="ImageEditor" />
+<Node id="2" name="EditorCanvas" />
 </Nodes>
 <Links>
-<Link origin="2" target="1" />
-<Link origin="3" target="1" />
-<Link origin="5" target="4" />
+<Link origin="2" target="0" />
 </Links>
 </Graph>

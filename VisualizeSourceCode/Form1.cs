@@ -26,7 +26,7 @@ namespace VisualizeSourceCode
         List<string> xmlDocuments = new List<string>();
         string XMLFilePath = @"D:\Kuliah\#SEMESTER 5\Perancangan dan Pengembangan Perangkat Lunak\Repos\VisualizeSourceCode\VisualizeSourceCode\XMLDiagram.xml";
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnBrowse_Click(object sender, EventArgs e)
         {
 
             string filePath = String.Empty;
@@ -41,7 +41,7 @@ namespace VisualizeSourceCode
                 {
                     filePath = file;
                     fileExt = Path.GetExtension(filePath);
-                    if (fileExt.CompareTo(".txt") == 0)
+                    if (fileExt.CompareTo(".java") == 0)
                     {
                         try
                         {
@@ -52,23 +52,36 @@ namespace VisualizeSourceCode
 
                             while ((line = reader.ReadLine()) != null)
                             {
-                                if ((line.Contains("class")))
+                                if (line.Contains("class"))
                                 {
 
                                     string[] lineArr = line.Split(' ');
                                     id++;
-                                    if (!(line.Contains("extends")))
+                                    if (line.Contains("extends"))
                                     {
-                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], "");
+                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1]);
+                                        kelas.id = id;
+                                        ClassCollection.Add(kelas);                                        
+                                    }
+                                    else if (line.Contains("implements"))
+                                    {
+                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("implements")) + 1]);
                                         kelas.id = id;
                                         ClassCollection.Add(kelas);
                                     }
                                     else
                                     {
-                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1]);
+                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], "");
                                         kelas.id = id;
                                         ClassCollection.Add(kelas);
                                     }
+                                } else if (line.Contains("interface"))
+                                {
+                                    string[] lineArr = line.Split(' ');
+                                    id++;
+                                    var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("interface")) + 1], "");
+                                    kelas.id = id;
+                                    ClassCollection.Add(kelas);
                                 }
 
                                 builder.AppendLine(line);
@@ -77,9 +90,7 @@ namespace VisualizeSourceCode
 
                             builder.AppendLine("----------------------------------");
                             reader.Close();
-                            richTextBox1.Text = builder.ToString();
-
-
+                            txtBox_sourceCode.Text = builder.ToString();
                         }
                         catch (Exception ex)
                         {
@@ -89,20 +100,17 @@ namespace VisualizeSourceCode
 
                 }
 
-                foreach (ClassDataType item in ClassCollection)
+                foreach (var item in ClassCollection)
                 {
                     Console.WriteLine(item.id);
                     Console.WriteLine("nama class : " + item.className);
-                    foreach (string super in item.superClassList)
-                    {
-                        Console.WriteLine("superClass : " + super);
-                    }
-                    if (item.superClassList.Any())
-                    {
+                    Console.WriteLine("superClass : " + item.superClass);
 
+                    if (item.superClass.Any())
+                    {
                         foreach (var itemclass in ClassCollection)
                         {
-                            if (item.superClassList[0] == itemclass.className)
+                            if (item.superClass == itemclass.className)
                             {
                                 item.target = itemclass.id;
                             }
@@ -110,17 +118,18 @@ namespace VisualizeSourceCode
                     }
 
                 }
+                
 
                 //ClassesData.DataSource = ClassCollection;
                 foreach (var item in ClassCollection)
                 {
-                    if (!item.superClassList.Any())
+                    if (!item.superClass.Any())
                     {
-                        dataGridView1.Rows.Add(item.className, "", item.id, item.target);
+                        dgv_sourceCode.Rows.Add(item.className, "", item.id, item.target);
                     }
                     else
                     {
-                        dataGridView1.Rows.Add(item.className, item.superClassList[0], item.id, item.target);
+                        dgv_sourceCode.Rows.Add(item.className, item.superClass, item.id, item.target);
                     }
 
                 }
@@ -137,9 +146,9 @@ namespace VisualizeSourceCode
                 xmlDocuments.Add("<Links>");
                 foreach (var item in ClassCollection)
                 {
-                    if (item.superClassList.Any())
+                    if (item.superClass.Any())
                     {
-                    xmlDocuments.Add($"<Link origin=\"{item.id}\" target=\"{item.target}\" />");                        
+                        xmlDocuments.Add($"<Link origin=\"{item.id}\" target=\"{item.target}\" />");
                     }
                 }
                 xmlDocuments.Add("</Links>");
@@ -149,28 +158,7 @@ namespace VisualizeSourceCode
             }
         }
 
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-        }
-
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void diagramView1_Click_1(object sender, EventArgs e)
         {
 
         }
@@ -180,36 +168,56 @@ namespace VisualizeSourceCode
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnVisualize_Click(object sender, EventArgs e)
         {
-            Dictionary<string, DiagramNode> nodeMap = new Dictionary<string, DiagramNode>();
-            RectangleF bounds = new RectangleF(0, 0, 18, 6);
-
-            XmlDocument document = new XmlDocument();
-            document.Load(XMLFilePath);
-
-            // Load node data
-            XmlNodeList nodes = document.SelectNodes("/Graph/Nodes/Node");
-            foreach (XmlElement node in nodes)
+            try
             {
-                ShapeNode diagramNode = diagram1.Factory.CreateShapeNode(bounds);
-                nodeMap[node.GetAttribute("id")] = diagramNode;
-                diagramNode.Text = node.GetAttribute("name");
-            }
+                diagram1.Nodes.Clear();
+                Dictionary<string, DiagramNode> nodeMap = new Dictionary<string, DiagramNode>();
+                RectangleF bounds = new RectangleF(0, 0, 18, 6);
 
-            // Load link data
-            XmlNodeList links = document.SelectNodes("/Graph/Links/Link");
-            foreach (XmlElement link in links)
-            {
-                diagram1.Factory.CreateDiagramLink(
-                    nodeMap[link.GetAttribute("origin")],
-                    nodeMap[link.GetAttribute("target")]);
-            }
+                XmlDocument document = new XmlDocument();
+                document.Load(XMLFilePath);
 
-            // Arrange the graph
-            LayeredLayout layout = new LayeredLayout();
-            layout.LayerDistance = 12;
-            layout.Arrange(diagram1);
+                // Load node data
+                XmlNodeList nodes = document.SelectNodes("/Graph/Nodes/Node");
+                foreach (XmlElement node in nodes)
+                {
+                    ShapeNode diagramNode = diagram1.Factory.CreateShapeNode(bounds);
+                    nodeMap[node.GetAttribute("id")] = diagramNode;
+                    diagramNode.Text = node.GetAttribute("name");
+                }
+
+                // Load link data
+                XmlNodeList links = document.SelectNodes("/Graph/Links/Link");
+                foreach (XmlElement link in links)
+                {
+                    diagram1.Factory.CreateDiagramLink(
+                        nodeMap[link.GetAttribute("origin")],
+                        nodeMap[link.GetAttribute("target")]);
+                }
+
+                // Arrange the graph
+                LayeredLayout layout = new LayeredLayout();
+                layout.LayerDistance = 12;
+                layout.Arrange(diagram1);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
+            
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            ClassCollection.Clear();
+            xmlDocuments.Clear();
+            dgv_sourceCode.Rows.Clear();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            diagram1.Nodes.Clear();
         }
     }
 }

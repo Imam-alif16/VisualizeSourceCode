@@ -29,43 +29,45 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_Title = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnVisualize = new System.Windows.Forms.Button();
             this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
             this.diagram1 = new MindFusion.Diagramming.Diagram();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.dgv_sourceCode = new System.Windows.Forms.DataGridView();
             this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.target = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.txtBox_sourceCode = new System.Windows.Forms.RichTextBox();
+            this.btnBrowse = new System.Windows.Forms.Button();
+            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.btnClear = new System.Windows.Forms.Button();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // lbl_Title
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(9, 7);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(233, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "VisualizeSourceCode-Demo";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.lbl_Title.AutoSize = true;
+            this.lbl_Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Title.Location = new System.Drawing.Point(9, 7);
+            this.lbl_Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lbl_Title.Name = "lbl_Title";
+            this.lbl_Title.Size = new System.Drawing.Size(233, 20);
+            this.lbl_Title.TabIndex = 3;
+            this.lbl_Title.Text = "VisualizeSourceCode-Demo";
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Controls.Add(this.btnClear);
+            this.tabPage3.Controls.Add(this.btnVisualize);
             this.tabPage3.Controls.Add(this.diagramView1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
@@ -76,16 +78,16 @@
             this.tabPage3.Text = "Visualize";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnVisualize
             // 
-            this.button2.Location = new System.Drawing.Point(5, 5);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(79, 31);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Visualize";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnVisualize.Location = new System.Drawing.Point(5, 5);
+            this.btnVisualize.Margin = new System.Windows.Forms.Padding(2);
+            this.btnVisualize.Name = "btnVisualize";
+            this.btnVisualize.Size = new System.Drawing.Size(79, 31);
+            this.btnVisualize.TabIndex = 1;
+            this.btnVisualize.Text = "Visualize";
+            this.btnVisualize.UseVisualStyleBackColor = true;
+            this.btnVisualize.Click += new System.EventHandler(this.btnVisualize_Click);
             // 
             // diagramView1
             // 
@@ -96,7 +98,6 @@
             this.diagramView1.Size = new System.Drawing.Size(910, 420);
             this.diagramView1.TabIndex = 0;
             this.diagramView1.Text = "diagramView1";
-            this.diagramView1.Click += new System.EventHandler(this.diagramView1_Click_1);
             // 
             // diagram1
             // 
@@ -105,9 +106,10 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.dataGridView1);
-            this.tabPage1.Controls.Add(this.richTextBox1);
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.btnReset);
+            this.tabPage1.Controls.Add(this.dgv_sourceCode);
+            this.tabPage1.Controls.Add(this.txtBox_sourceCode);
+            this.tabPage1.Controls.Add(this.btnBrowse);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
@@ -117,57 +119,35 @@
             this.tabPage1.Text = "Source";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
+            // btnReset
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.btnReset.Location = new System.Drawing.Point(817, 5);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(98, 31);
+            this.btnReset.TabIndex = 3;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // dgv_sourceCode
+            // 
+            this.dgv_sourceCode.AllowUserToAddRows = false;
+            this.dgv_sourceCode.AllowUserToDeleteRows = false;
+            this.dgv_sourceCode.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_sourceCode.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_sourceCode.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.className,
             this.superClass,
             this.Id,
             this.target});
-            this.dataGridView1.Location = new System.Drawing.Point(381, 41);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(537, 423);
-            this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Location = new System.Drawing.Point(4, 41);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(373, 424);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(4, 5);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(79, 31);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Browse File";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(9, 45);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(928, 492);
-            this.tabControl1.TabIndex = 4;
+            this.dgv_sourceCode.Location = new System.Drawing.Point(381, 41);
+            this.dgv_sourceCode.Margin = new System.Windows.Forms.Padding(2);
+            this.dgv_sourceCode.Name = "dgv_sourceCode";
+            this.dgv_sourceCode.ReadOnly = true;
+            this.dgv_sourceCode.RowHeadersWidth = 51;
+            this.dgv_sourceCode.RowTemplate.Height = 24;
+            this.dgv_sourceCode.Size = new System.Drawing.Size(537, 423);
+            this.dgv_sourceCode.TabIndex = 2;
             // 
             // className
             // 
@@ -200,13 +180,54 @@
             this.target.Name = "target";
             this.target.ReadOnly = true;
             // 
+            // txtBox_sourceCode
+            // 
+            this.txtBox_sourceCode.Location = new System.Drawing.Point(4, 41);
+            this.txtBox_sourceCode.Margin = new System.Windows.Forms.Padding(2);
+            this.txtBox_sourceCode.Name = "txtBox_sourceCode";
+            this.txtBox_sourceCode.Size = new System.Drawing.Size(373, 424);
+            this.txtBox_sourceCode.TabIndex = 1;
+            this.txtBox_sourceCode.Text = "";
+            // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Location = new System.Drawing.Point(4, 5);
+            this.btnBrowse.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(79, 31);
+            this.btnBrowse.TabIndex = 0;
+            this.btnBrowse.Text = "Browse File";
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage3);
+            this.tabControl.Location = new System.Drawing.Point(9, 45);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(2);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(928, 492);
+            this.tabControl.TabIndex = 4;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(817, 5);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(98, 31);
+            this.btnClear.TabIndex = 4;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(946, 547);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.lbl_Title);
+            this.Controls.Add(this.tabControl);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -214,30 +235,32 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabPage3.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_Title;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.DataGridView dgv_sourceCode;
+        private System.Windows.Forms.RichTextBox txtBox_sourceCode;
+        private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.BindingSource ClassesData;
         private MindFusion.Diagramming.Diagram diagram1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnVisualize;
         private MindFusion.Diagramming.WinForms.DiagramView diagramView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn className;
         private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn target;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.Button btnClear;
     }
 }
 

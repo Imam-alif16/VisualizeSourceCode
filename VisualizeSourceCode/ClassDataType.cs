@@ -10,17 +10,21 @@ namespace VisualizeSourceCode
     {
         public int id { get; set; }
         public int target { get; set; }
-        public string className { get; set; }
 
-        public List<string> superClassList = new List<string>();
+        //public List<int> target = new List<int>();
+        public string className { get; set; }
+        public string superClass { get; set; }
+       
+        //public List<string> superClassList = new List<string>();
 
         public ClassDataType(string aClassName, string aSuperClass)
         {
             this.className = aClassName;
-            if (aSuperClass != "")
+            this.superClass = aSuperClass;
+            /*if (aSuperClass != "")
             {
                 this.superClassList.Add(aSuperClass);
-            }
+            }*/
         }
 
 
