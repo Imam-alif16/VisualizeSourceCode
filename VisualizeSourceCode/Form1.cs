@@ -61,7 +61,7 @@ namespace VisualizeSourceCode
                                     {
                                         var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1]);
                                         kelas.id = id;
-                                        ClassCollection.Add(kelas);                                        
+                                        ClassCollection.Add(kelas);
                                     }
                                     else if (line.Contains("implements"))
                                     {
@@ -75,7 +75,8 @@ namespace VisualizeSourceCode
                                         kelas.id = id;
                                         ClassCollection.Add(kelas);
                                     }
-                                } else if (line.Contains("interface"))
+                                }
+                                else if (line.Contains("interface"))
                                 {
                                     string[] lineArr = line.Split(' ');
                                     id++;
@@ -99,6 +100,24 @@ namespace VisualizeSourceCode
                     }
 
                 }
+                List<ClassDataType> ClassCollectionTemp = new List<ClassDataType>();
+
+                foreach (var item in ClassCollection)
+                {
+                    int inc = 1;
+                    if (item.superClass.Any())
+                    {
+                        if (!(ClassCollection.Any(a => a.className == item.superClass)))
+                        {
+                            var kelas = new ClassDataType(item.superClass, "");
+                            kelas.id = ClassCollection.Max(a => a.id + inc);
+                            ClassCollectionTemp.Add(kelas);
+                            inc++;
+                        }
+                    }
+                }
+
+                ClassCollection.AddRange(ClassCollectionTemp);
 
                 foreach (var item in ClassCollection)
                 {
@@ -116,9 +135,10 @@ namespace VisualizeSourceCode
                             }
                         }
                     }
-
                 }
-                
+
+
+
 
                 //ClassesData.DataSource = ClassCollection;
                 foreach (var item in ClassCollection)
@@ -172,7 +192,7 @@ namespace VisualizeSourceCode
         {
             try
             {
-                diagram1.Nodes.Clear();
+                diagram.Nodes.Clear();
                 Dictionary<string, DiagramNode> nodeMap = new Dictionary<string, DiagramNode>();
                 RectangleF bounds = new RectangleF(0, 0, 18, 6);
 
@@ -183,7 +203,7 @@ namespace VisualizeSourceCode
                 XmlNodeList nodes = document.SelectNodes("/Graph/Nodes/Node");
                 foreach (XmlElement node in nodes)
                 {
-                    ShapeNode diagramNode = diagram1.Factory.CreateShapeNode(bounds);
+                    ShapeNode diagramNode = diagram.Factory.CreateShapeNode(bounds);
                     nodeMap[node.GetAttribute("id")] = diagramNode;
                     diagramNode.Text = node.GetAttribute("name");
                 }
@@ -192,7 +212,7 @@ namespace VisualizeSourceCode
                 XmlNodeList links = document.SelectNodes("/Graph/Links/Link");
                 foreach (XmlElement link in links)
                 {
-                    diagram1.Factory.CreateDiagramLink(
+                    diagram.Factory.CreateDiagramLink(
                         nodeMap[link.GetAttribute("origin")],
                         nodeMap[link.GetAttribute("target")]);
                 }
@@ -200,12 +220,13 @@ namespace VisualizeSourceCode
                 // Arrange the graph
                 LayeredLayout layout = new LayeredLayout();
                 layout.LayerDistance = 12;
-                layout.Arrange(diagram1);
+                layout.Arrange(diagram);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -213,11 +234,12 @@ namespace VisualizeSourceCode
             ClassCollection.Clear();
             xmlDocuments.Clear();
             dgv_sourceCode.Rows.Clear();
+            txtBox_sourceCode.Clear();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            diagram1.Nodes.Clear();
+            diagram.Nodes.Clear();
         }
     }
 }

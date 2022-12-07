@@ -31,9 +31,10 @@
             this.components = new System.ComponentModel.Container();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnClear = new System.Windows.Forms.Button();
             this.btnVisualize = new System.Windows.Forms.Button();
             this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
-            this.diagram1 = new MindFusion.Diagramming.Diagram();
+            this.diagram = new MindFusion.Diagramming.Diagram();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnReset = new System.Windows.Forms.Button();
             this.dgv_sourceCode = new System.Windows.Forms.DataGridView();
@@ -45,12 +46,14 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.btnClear = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).BeginInit();
             this.tabControl.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -78,6 +81,16 @@
             this.tabPage3.Text = "Visualize";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(817, 5);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(98, 31);
+            this.btnClear.TabIndex = 4;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // btnVisualize
             // 
             this.btnVisualize.Location = new System.Drawing.Point(5, 5);
@@ -91,7 +104,7 @@
             // 
             // diagramView1
             // 
-            this.diagramView1.Diagram = this.diagram1;
+            this.diagramView1.Diagram = this.diagram;
             this.diagramView1.LicenseKey = null;
             this.diagramView1.Location = new System.Drawing.Point(5, 41);
             this.diagramView1.Name = "diagramView1";
@@ -99,10 +112,10 @@
             this.diagramView1.TabIndex = 0;
             this.diagramView1.Text = "diagramView1";
             // 
-            // diagram1
+            // diagram
             // 
-            this.diagram1.TouchThreshold = 0F;
-            this.diagram1.NodeCreated += new System.EventHandler<MindFusion.Diagramming.NodeEventArgs>(this.diagram1_NodeCreated);
+            this.diagram.TouchThreshold = 0F;
+            this.diagram.NodeCreated += new System.EventHandler<MindFusion.Diagramming.NodeEventArgs>(this.diagram1_NodeCreated);
             // 
             // tabPage1
             // 
@@ -211,21 +224,34 @@
             this.tabControl.Size = new System.Drawing.Size(928, 492);
             this.tabControl.TabIndex = 4;
             // 
-            // btnClear
+            // groupBox1
             // 
-            this.btnClear.Location = new System.Drawing.Point(817, 5);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(98, 31);
-            this.btnClear.TabIndex = 4;
-            this.btnClear.Text = "Clear";
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Location = new System.Drawing.Point(669, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(264, 55);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Programming Languages";
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(14, 24);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(48, 17);
+            this.radioButton1.TabIndex = 0;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Java";
+            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(946, 547);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lbl_Title);
             this.Controls.Add(this.tabControl);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -238,6 +264,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).EndInit();
             this.tabControl.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -252,7 +280,7 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.BindingSource ClassesData;
-        private MindFusion.Diagramming.Diagram diagram1;
+        private MindFusion.Diagramming.Diagram diagram;
         private System.Windows.Forms.Button btnVisualize;
         private MindFusion.Diagramming.WinForms.DiagramView diagramView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn className;
@@ -261,6 +289,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn target;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 

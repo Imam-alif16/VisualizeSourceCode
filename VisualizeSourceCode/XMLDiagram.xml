@@ -3,8 +3,9 @@
 <Nodes>
 <Node id="1" name="ImageEditor" />
 <Node id="2" name="EditorCanvas" />
+<Node id="3" name="Canvas" />
 </Nodes>
 <Links>
-<Link origin="2" target="0" />
+<Link origin="2" target="3" />
 </Links>
 </Graph>
