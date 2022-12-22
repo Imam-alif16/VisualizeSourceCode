@@ -12,6 +12,9 @@ using MindFusion.Diagramming;
 using System.Xml;
 using Path = System.IO.Path;
 using MindFusion.Diagramming.Layout;
+using System.Net.Http.Headers;
+using CsvHelper;
+using System.Globalization;
 
 namespace VisualizeSourceCode
 {
@@ -41,63 +44,105 @@ namespace VisualizeSourceCode
                 {
                     filePath = file;
                     fileExt = Path.GetExtension(filePath);
-                    if (fileExt.CompareTo(".java") == 0)
+                    if (rb_java.Checked)
                     {
-                        try
+                        if (fileExt.CompareTo(".java") == 0)
                         {
-                            StreamReader reader = new StreamReader(filePath);
-
-                            string line = "";
-
-
-                            while ((line = reader.ReadLine()) != null)
+                            try
                             {
-                                if (line.Contains("class"))
+                                StreamReader reader = new StreamReader(filePath);
+                                string line = "";
+                                while ((line = reader.ReadLine()) != null)
                                 {
+                                    if (line.Contains("class"))
+                                    {
+                                        string[] lineArr = line.Split(' ');
+                                        id++;
+                                        if (line.Contains("extends"))
+                                        {
+                                            var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1]);
+                                            kelas.id = id;
+                                            ClassCollection.Add(kelas);
+                                        }
+                                        else if (line.Contains("implements"))
+                                        {
+                                            var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("implements")) + 1]);
+                                            kelas.id = id;
+                                            ClassCollection.Add(kelas);
+                                        }
+                                        else
+                                        {
+                                            var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], "");
+                                            kelas.id = id;
+                                            ClassCollection.Add(kelas);
+                                        }
+                                    }
+                                    else if (line.Contains("interface"))
+                                    {
+                                        string[] lineArr = line.Split(' ');
+                                        id++;
+                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("interface")) + 1], "");
+                                        kelas.id = id;
+                                        ClassCollection.Add(kelas);
+                                    }
 
-                                    string[] lineArr = line.Split(' ');
-                                    id++;
-                                    if (line.Contains("extends"))
-                                    {
-                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1]);
-                                        kelas.id = id;
-                                        ClassCollection.Add(kelas);
-                                    }
-                                    else if (line.Contains("implements"))
-                                    {
-                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains("implements")) + 1]);
-                                        kelas.id = id;
-                                        ClassCollection.Add(kelas);
-                                    }
-                                    else
-                                    {
-                                        var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], "");
-                                        kelas.id = id;
-                                        ClassCollection.Add(kelas);
-                                    }
+                                    builder.AppendLine(line);
+
                                 }
-                                else if (line.Contains("interface"))
-                                {
-                                    string[] lineArr = line.Split(' ');
-                                    id++;
-                                    var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("interface")) + 1], "");
-                                    kelas.id = id;
-                                    ClassCollection.Add(kelas);
-                                }
 
-                                builder.AppendLine(line);
-
+                                builder.AppendLine("----------------------------------");
+                                reader.Close();
+                                txtBox_sourceCode.Text = builder.ToString();
                             }
-
-                            builder.AppendLine("----------------------------------");
-                            reader.Close();
-                            txtBox_sourceCode.Text = builder.ToString();
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
+                    else if (rb_csharp.Checked)
+                    {
+                        if (fileExt.CompareTo(".cs") == 0)
+                        {
+                            try
+                            {
+                                StreamReader reader = new StreamReader(filePath);
+                                string line = "";
+                                while ((line = reader.ReadLine()) != null)
+                                {
+                                    if (line.Contains("class"))
+                                    {
+
+                                        string[] lineArr = line.Split(' ');
+                                        id++;
+                                        if (line.Contains(":"))
+                                        {
+                                            var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], lineArr[Array.FindIndex(lineArr, row => row.Contains(":")) + 1]);
+                                            kelas.id = id;
+                                            ClassCollection.Add(kelas);
+                                        }
+                                        else
+                                        {
+                                            var kelas = new ClassDataType(lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1], "");
+                                            kelas.id = id;
+                                            ClassCollection.Add(kelas);
+                                        }
+                                    }
+                                    builder.AppendLine(line);
+
+                                }
+
+                                builder.AppendLine("----------------------------------");
+                                reader.Close();
+                                txtBox_sourceCode.Text = builder.ToString();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                        }
+                    }
+
 
                 }
                 List<ClassDataType> ClassCollectionTemp = new List<ClassDataType>();
@@ -140,8 +185,9 @@ namespace VisualizeSourceCode
 
 
 
-                //ClassesData.DataSource = ClassCollection;
-                foreach (var item in ClassCollection)
+                ClassesData.DataSource = ClassCollection;
+                dgv_sourceCode.DataSource = ClassCollection;
+                /*foreach (var item in ClassCollection)
                 {
                     if (!item.superClass.Any())
                     {
@@ -152,7 +198,7 @@ namespace VisualizeSourceCode
                         dgv_sourceCode.Rows.Add(item.className, item.superClass, item.id, item.target);
                     }
 
-                }
+                }*/
 
                 //write xml documents
                 xmlDocuments.Add(@"<?xml version=""1.0"" encoding=""utf-8"" ?>");
@@ -236,10 +282,27 @@ namespace VisualizeSourceCode
             dgv_sourceCode.Rows.Clear();
             txtBox_sourceCode.Clear();
         }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             diagram.Nodes.Clear();
+        }
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "CSV|*.csv", ValidateNames = true })
+            {
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var classCollectionCSV = new List<string>();
+                    classCollectionCSV.Add("Class Name,Super Class Name,Class ID,Class Target");
+                    foreach (var item in ClassCollection)
+                    {
+                        classCollectionCSV.Add($"{item.className},{item.superClass},{item.id},{item.target}");
+                    }
+                    File.WriteAllLines(sfd.FileName, classCollectionCSV);
+
+                    MessageBox.Show("Your data has been successfully saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

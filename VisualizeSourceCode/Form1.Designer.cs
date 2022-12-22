@@ -36,18 +36,20 @@
             this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
             this.diagram = new MindFusion.Diagramming.Diagram();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnExport = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.dgv_sourceCode = new System.Windows.Forms.DataGridView();
             this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.target = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.txtBox_sourceCode = new System.Windows.Forms.RichTextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
-            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl = new System.Windows.Forms.TabControl();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rb_csharp = new System.Windows.Forms.RadioButton();
+            this.rb_java = new System.Windows.Forms.RadioButton();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).BeginInit();
@@ -119,6 +121,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnExport);
             this.tabPage1.Controls.Add(this.btnReset);
             this.tabPage1.Controls.Add(this.dgv_sourceCode);
             this.tabPage1.Controls.Add(this.txtBox_sourceCode);
@@ -131,6 +134,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Source";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(381, 5);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(2);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(93, 31);
+            this.btnExport.TabIndex = 4;
+            this.btnExport.Text = "Export as csv";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnReset
             // 
@@ -226,7 +240,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.rb_csharp);
+            this.groupBox1.Controls.Add(this.rb_java);
             this.groupBox1.Location = new System.Drawing.Point(669, 7);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(264, 55);
@@ -234,17 +249,27 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Programming Languages";
             // 
-            // radioButton1
+            // rb_csharp
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(14, 24);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(48, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Java";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rb_csharp.AutoSize = true;
+            this.rb_csharp.Location = new System.Drawing.Point(83, 24);
+            this.rb_csharp.Name = "rb_csharp";
+            this.rb_csharp.Size = new System.Drawing.Size(39, 17);
+            this.rb_csharp.TabIndex = 1;
+            this.rb_csharp.Text = "C#";
+            this.rb_csharp.UseVisualStyleBackColor = true;
+            // 
+            // rb_java
+            // 
+            this.rb_java.AutoSize = true;
+            this.rb_java.Checked = true;
+            this.rb_java.Location = new System.Drawing.Point(14, 24);
+            this.rb_java.Name = "rb_java";
+            this.rb_java.Size = new System.Drawing.Size(48, 17);
+            this.rb_java.TabIndex = 0;
+            this.rb_java.TabStop = true;
+            this.rb_java.Text = "Java";
+            this.rb_java.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -290,7 +315,9 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rb_java;
+        private System.Windows.Forms.RadioButton rb_csharp;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 
