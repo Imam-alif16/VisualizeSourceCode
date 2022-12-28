@@ -9,8 +9,7 @@ namespace VisualizeSourceCode
     internal class ClassDataType
     {
         public int id { get; set; }
-        public int target { get; set; }
-        
+        public int target { get; set; }    
         public string className { get; set; }
         public string superClass { get; set; }              
 

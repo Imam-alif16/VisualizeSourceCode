@@ -13,7 +13,6 @@ using System.Xml;
 using Path = System.IO.Path;
 using MindFusion.Diagramming.Layout;
 using System.Net.Http.Headers;
-using CsvHelper;
 using System.Globalization;
 
 namespace VisualizeSourceCode
@@ -265,7 +264,7 @@ namespace VisualizeSourceCode
 
                 // Arrange the graph
                 LayeredLayout layout = new LayeredLayout();
-                layout.LayerDistance = 12;
+                layout.LayerDistance = 16;
                 layout.Arrange(diagram);
             }
             catch (Exception ex)
@@ -301,6 +300,21 @@ namespace VisualizeSourceCode
                     File.WriteAllLines(sfd.FileName, classCollectionCSV);
 
                     MessageBox.Show("Your data has been successfully saved.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void btnExportDiagram_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "PNG|*.png", ValidateNames = true })
+            {
+                sfd.DefaultExt = "png";
+                sfd.Filter = "PNG files|*.png";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    Image image = diagram.CreateImage();
+                    image.Save(sfd.FileName);
+                    image.Dispose();
                 }
             }
         }

@@ -30,11 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             this.lbl_Title = new System.Windows.Forms.Label();
+            this.diagram = new MindFusion.Diagramming.Diagram();
+            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_csharp = new System.Windows.Forms.RadioButton();
+            this.rb_java = new System.Windows.Forms.RadioButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btnExportDiagram = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnVisualize = new System.Windows.Forms.Button();
             this.diagramView1 = new MindFusion.Diagramming.WinForms.DiagramView();
-            this.diagram = new MindFusion.Diagramming.Diagram();
+            this.diagram1 = new MindFusion.Diagramming.Diagram();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
@@ -43,19 +49,15 @@
             this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.target = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ClassesData = new System.Windows.Forms.BindingSource(this.components);
             this.txtBox_sourceCode = new System.Windows.Forms.RichTextBox();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rb_csharp = new System.Windows.Forms.RadioButton();
-            this.rb_java = new System.Windows.Forms.RadioButton();
+            ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).BeginInit();
             this.tabControl.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -69,8 +71,47 @@
             this.lbl_Title.TabIndex = 3;
             this.lbl_Title.Text = "VisualizeSourceCode-Demo";
             // 
+            // diagram
+            // 
+            this.diagram.TouchThreshold = 0F;
+            this.diagram.NodeCreated += new System.EventHandler<MindFusion.Diagramming.NodeEventArgs>(this.diagram1_NodeCreated);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rb_csharp);
+            this.groupBox1.Controls.Add(this.rb_java);
+            this.groupBox1.Location = new System.Drawing.Point(669, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(264, 55);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Programming Languages";
+            // 
+            // rb_csharp
+            // 
+            this.rb_csharp.AutoSize = true;
+            this.rb_csharp.Location = new System.Drawing.Point(83, 24);
+            this.rb_csharp.Name = "rb_csharp";
+            this.rb_csharp.Size = new System.Drawing.Size(39, 17);
+            this.rb_csharp.TabIndex = 1;
+            this.rb_csharp.Text = "C#";
+            this.rb_csharp.UseVisualStyleBackColor = true;
+            // 
+            // rb_java
+            // 
+            this.rb_java.AutoSize = true;
+            this.rb_java.Checked = true;
+            this.rb_java.Location = new System.Drawing.Point(14, 24);
+            this.rb_java.Name = "rb_java";
+            this.rb_java.Size = new System.Drawing.Size(48, 17);
+            this.rb_java.TabIndex = 0;
+            this.rb_java.TabStop = true;
+            this.rb_java.Text = "Java";
+            this.rb_java.UseVisualStyleBackColor = true;
+            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btnExportDiagram);
             this.tabPage3.Controls.Add(this.btnClear);
             this.tabPage3.Controls.Add(this.btnVisualize);
             this.tabPage3.Controls.Add(this.diagramView1);
@@ -82,6 +123,17 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Visualize";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btnExportDiagram
+            // 
+            this.btnExportDiagram.Location = new System.Drawing.Point(88, 5);
+            this.btnExportDiagram.Margin = new System.Windows.Forms.Padding(2);
+            this.btnExportDiagram.Name = "btnExportDiagram";
+            this.btnExportDiagram.Size = new System.Drawing.Size(107, 31);
+            this.btnExportDiagram.TabIndex = 5;
+            this.btnExportDiagram.Text = "Export as PNG";
+            this.btnExportDiagram.UseVisualStyleBackColor = true;
+            this.btnExportDiagram.Click += new System.EventHandler(this.btnExportDiagram_Click);
             // 
             // btnClear
             // 
@@ -114,10 +166,9 @@
             this.diagramView1.TabIndex = 0;
             this.diagramView1.Text = "diagramView1";
             // 
-            // diagram
+            // diagram1
             // 
-            this.diagram.TouchThreshold = 0F;
-            this.diagram.NodeCreated += new System.EventHandler<MindFusion.Diagramming.NodeEventArgs>(this.diagram1_NodeCreated);
+            this.diagram1.TouchThreshold = 0F;
             // 
             // tabPage1
             // 
@@ -238,39 +289,6 @@
             this.tabControl.Size = new System.Drawing.Size(928, 492);
             this.tabControl.TabIndex = 4;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rb_csharp);
-            this.groupBox1.Controls.Add(this.rb_java);
-            this.groupBox1.Location = new System.Drawing.Point(669, 7);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(264, 55);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Programming Languages";
-            // 
-            // rb_csharp
-            // 
-            this.rb_csharp.AutoSize = true;
-            this.rb_csharp.Location = new System.Drawing.Point(83, 24);
-            this.rb_csharp.Name = "rb_csharp";
-            this.rb_csharp.Size = new System.Drawing.Size(39, 17);
-            this.rb_csharp.TabIndex = 1;
-            this.rb_csharp.Text = "C#";
-            this.rb_csharp.UseVisualStyleBackColor = true;
-            // 
-            // rb_java
-            // 
-            this.rb_java.AutoSize = true;
-            this.rb_java.Checked = true;
-            this.rb_java.Location = new System.Drawing.Point(14, 24);
-            this.rb_java.Name = "rb_java";
-            this.rb_java.Size = new System.Drawing.Size(48, 17);
-            this.rb_java.TabIndex = 0;
-            this.rb_java.TabStop = true;
-            this.rb_java.Text = "Java";
-            this.rb_java.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,13 +302,13 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VisualizeSourceCode-Demo";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sourceCode)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ClassesData)).EndInit();
             this.tabControl.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -298,26 +316,28 @@
 
         #endregion
         private System.Windows.Forms.Label lbl_Title;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.DataGridView dgv_sourceCode;
-        private System.Windows.Forms.RichTextBox txtBox_sourceCode;
-        private System.Windows.Forms.Button btnBrowse;
-        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.BindingSource ClassesData;
         private MindFusion.Diagramming.Diagram diagram;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rb_java;
+        private System.Windows.Forms.RadioButton rb_csharp;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button btnExportDiagram;
+        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnVisualize;
         private MindFusion.Diagramming.WinForms.DiagramView diagramView1;
+        private MindFusion.Diagramming.Diagram diagram1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.DataGridView dgv_sourceCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn className;
         private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn target;
-        private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton rb_java;
-        private System.Windows.Forms.RadioButton rb_csharp;
-        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.RichTextBox txtBox_sourceCode;
+        private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.TabControl tabControl;
     }
 }
 
