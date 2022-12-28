@@ -26,7 +26,7 @@ namespace VisualizeSourceCode
 
         List<ClassDataType> ClassCollection = new List<ClassDataType>();
         List<string> xmlDocuments = new List<string>();
-        string XMLFilePath = @"D:\Kuliah\#SEMESTER 5\Perancangan dan Pengembangan Perangkat Lunak\Repos\VisualizeSourceCode\VisualizeSourceCode\XMLDiagram.xml";
+        string XMLFilePath = "XMLDiagram.xml";        
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
@@ -184,9 +184,9 @@ namespace VisualizeSourceCode
 
 
 
-                ClassesData.DataSource = ClassCollection;
-                dgv_sourceCode.DataSource = ClassCollection;
-                /*foreach (var item in ClassCollection)
+                /*ClassesData.DataSource = ClassCollection;
+                dgv_sourceCode.DataSource = ClassCollection;*/
+                foreach (var item in ClassCollection)
                 {
                     if (!item.superClass.Any())
                     {
@@ -197,7 +197,7 @@ namespace VisualizeSourceCode
                         dgv_sourceCode.Rows.Add(item.className, item.superClass, item.id, item.target);
                     }
 
-                }*/
+                }
 
                 //write xml documents
                 xmlDocuments.Add(@"<?xml version=""1.0"" encoding=""utf-8"" ?>");
