@@ -181,9 +181,6 @@ namespace VisualizeSourceCode
                     }
                 }
 
-
-
-
                 /*ClassesData.DataSource = ClassCollection;
                 dgv_sourceCode.DataSource = ClassCollection;*/
                 foreach (var item in ClassCollection)
