@@ -14,6 +14,9 @@ using Path = System.IO.Path;
 using MindFusion.Diagramming.Layout;
 using System.Net.Http.Headers;
 using System.Globalization;
+using System.Text.RegularExpressions;
+using MindFusion.Diagramming.Fluent;
+using DocumentFormat.OpenXml.ExtendedProperties;
 
 namespace VisualizeSourceCode
 {
@@ -25,8 +28,9 @@ namespace VisualizeSourceCode
         }
 
         List<ClassDataType> ClassCollection = new List<ClassDataType>();
+        List<string[]> classStrings = new List<string[]>();
         List<string> xmlDocuments = new List<string>();
-        string XMLFilePath = "XMLDiagram.xml";        
+        string XMLFilePath = "XMLDiagram.xml";
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
@@ -38,7 +42,7 @@ namespace VisualizeSourceCode
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 StringBuilder builder = new StringBuilder();
-                int id = 0;
+                //int id = 0;
                 foreach (string file in openFileDialog.FileNames)
                 {
                     filePath = file;
@@ -49,9 +53,13 @@ namespace VisualizeSourceCode
                         {
                             try
                             {
-                                StreamReader reader = new StreamReader(filePath);
-                                string line = "";
-                                while ((line = reader.ReadLine()) != null)
+                                //string line = "";
+                                //StreamReader reader = new StreamReader(filePath);
+                                List<string> lines = new List<string>();
+                                List<string> classLines = new List<string>();
+                                bool onClass = false;
+
+                                /*while ((line = reader.ReadLine()) != null)
                                 {
                                     if (line.Contains("class"))
                                     {
@@ -75,6 +83,7 @@ namespace VisualizeSourceCode
                                             kelas.id = id;
                                             ClassCollection.Add(kelas);
                                         }
+
                                     }
                                     else if (line.Contains("interface"))
                                     {
@@ -87,10 +96,73 @@ namespace VisualizeSourceCode
 
                                     builder.AppendLine(line);
 
+                                }*/
+
+                                lines = File.ReadAllLines(filePath).ToList();
+                                for (int i = 0; i < lines.Count; i++)
+                                {
+                                    if (((lines[i].Contains("class") || lines[i].Contains("interface")) ^ onClass) && !(i == lines.Count() - 1))
+                                    {
+                                        onClass = true;
+                                        classLines.Add(lines[i]);
+                                        //Console.WriteLine(lines[i]);
+                                    }
+                                    else if ((lines[i].Contains("class") || lines[i].Contains("interface")) && onClass)
+                                    {
+                                        var asignClass = classLines.ToArray();
+                                        classStrings.Add(asignClass);
+                                        classLines.Clear();
+                                        classLines.Add(lines[i]);
+
+                                        //Console.WriteLine("MASOK GA?");
+                                        //Console.WriteLine(lines[i]);
+                                    }
+                                    else if (i == lines.Count() - 1)
+                                    {
+                                        classLines.Add(lines[i]);
+                                        var asignClass = classLines.ToArray();
+                                        classStrings.Add(asignClass);
+                                        classLines.Clear();
+                                        //Console.WriteLine("MASOK AKHIR?");
+                                    }
+
+                                    builder.AppendLine(lines[i]);
                                 }
 
+                                /*foreach (string line in lines)
+                                {
+                                    if ( ((line.Contains("class") || line.Contains("interface")) ^ onClass) && !(lines.IndexOf(line) == lines.Count() -1 ))
+                                    {
+                                        onClass = true;
+                                        classLines.Add(line);
+                                        Console.WriteLine(line);
+                                    }
+                                    else if ((line.Contains("class") || line.Contains("interface")) && onClass)
+                                    {
+                                        var asignClass = classLines.ToArray();
+                                        classStrings.Add(asignClass);
+                                        classLines.Clear();
+                                        classLines.Add(line);
+                                        
+                                        Console.WriteLine("MASOK GA?");
+                                        Console.WriteLine(line);
+                                    }
+                                    else if (lines.IndexOf(line) == lines.Count() - 1)
+                                    //else if (line.Equals(last))
+                                    {
+                                        classLines.Add(line);
+                                        var asignClass = classLines.ToArray();
+                                        classStrings.Add(asignClass);                                        
+                                        classLines.Clear();
+                                        Console.WriteLine("MASOK AKHIR?");
+                                    }
+
+                                    builder.AppendLine(line);
+                                }*/
+
+
+                                //reader.Close();
                                 builder.AppendLine("----------------------------------");
-                                reader.Close();
                                 txtBox_sourceCode.Text = builder.ToString();
                             }
                             catch (Exception ex)
@@ -105,7 +177,10 @@ namespace VisualizeSourceCode
                         {
                             try
                             {
-                                StreamReader reader = new StreamReader(filePath);
+                                List<string> lines = new List<string>();
+                                List<string> classLines = new List<string>();
+                                bool onClass = false;
+                                /*StreamReader reader = new StreamReader(filePath);
                                 string line = "";
                                 while ((line = reader.ReadLine()) != null)
                                 {
@@ -128,11 +203,41 @@ namespace VisualizeSourceCode
                                         }
                                     }
                                     builder.AppendLine(line);
+                                }*/
 
+                                lines = File.ReadAllLines(filePath).ToList();
+                                for (int i = 0; i < lines.Count; i++)
+                                {
+                                    if ((lines[i].Contains("class") ^ onClass) && !(i == lines.Count() - 1))
+                                    {
+                                        onClass = true;
+                                        classLines.Add(lines[i]);
+                                        //Console.WriteLine(lines[i]);
+                                    }
+                                    else if (lines[i].Contains("class") && onClass)
+                                    {
+                                        var asignClass = classLines.ToArray();
+                                        classStrings.Add(asignClass);
+                                        classLines.Clear();
+                                        classLines.Add(lines[i]);
+
+                                        //Console.WriteLine("MASOK GA?");
+                                        //Console.WriteLine(lines[i]);
+                                    }
+                                    else if (i == lines.Count() - 1)
+                                    {
+                                        classLines.Add(lines[i]);
+                                        var asignClass = classLines.ToArray();
+                                        classStrings.Add(asignClass);
+                                        classLines.Clear();
+                                        //Console.WriteLine("MASOK AKHIR?");
+                                    }
+
+                                    builder.AppendLine(lines[i]);
                                 }
 
                                 builder.AppendLine("----------------------------------");
-                                reader.Close();
+                                //reader.Close();
                                 txtBox_sourceCode.Text = builder.ToString();
                             }
                             catch (Exception ex)
@@ -142,8 +247,149 @@ namespace VisualizeSourceCode
                         }
                     }
 
-
                 }
+
+                /*Console.WriteLine("jumlah class string " + classStrings.Count());
+                int test = 0;
+                foreach (var strs in classStrings)
+                {
+                    Console.WriteLine(test++);
+                    foreach (var str in strs)
+                    {
+                        Console.WriteLine(str);
+                    }
+                }*/
+
+                for (int i = 0; i < classStrings.Count; i++)
+                {
+                    var kelas = new ClassDataType("", "");
+                    foreach (var line in classStrings[i])
+                    {
+
+                        //menentukan nama class
+                        if (line.Contains("class"))
+                        {
+                            string[] lineArr = line.Split(' ');
+                            if (line.Contains("extends"))
+                            {
+                                kelas.className = lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1];
+                                kelas.superClass = lineArr[Array.FindIndex(lineArr, row => row.Contains("extends")) + 1];
+                                kelas.id = i + 1;
+                            }
+                            else if (line.Contains("implements"))
+                            {
+                                kelas.className = lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1];
+                                kelas.superClass = lineArr[Array.FindIndex(lineArr, row => row.Contains("implements")) + 1];
+                                kelas.id = i + 1;
+                            }
+                            else if (line.Contains(":"))
+                            {
+                                kelas.className = lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1];
+                                kelas.superClass = lineArr[Array.FindIndex(lineArr, row => row.Contains(":")) + 1];
+                                kelas.id = i + 1;
+                            }
+                            else
+                            {
+                                kelas.className = lineArr[Array.FindIndex(lineArr, row => row.Contains("class")) + 1];
+                                kelas.id = i + 1;
+                            }
+
+                        }
+                        else if (line.Contains("interface"))
+                        {
+                            string[] lineArr = line.Split(' ');
+                            kelas.className = lineArr[Array.FindIndex(lineArr, row => row.Contains("interface")) + 1];
+                            kelas.id = i + 1;
+                        }
+
+
+                        // menentukan properti                        
+                        if (line.Contains($"{kelas.className}("))
+                        {
+                            Console.WriteLine("constuctor line : " + line);
+                            int indexStart = line.IndexOf($"{kelas.className}(");
+                            int indexStop = line.IndexOf(")") - indexStart + 1;
+                            var methodName = line.Substring(indexStart, indexStop);
+                            kelas.methods.Add(methodName);
+                        }
+                        else if (Regex.IsMatch(line, @" int ") && line != null)
+                        {
+                            if (line.Contains("("))
+                            {
+                                int indexStart = line.IndexOf("int ");
+                                int indexStop = line.IndexOf(")") - indexStart + 1;
+                                var methodName = line.Substring(indexStart, indexStop);
+                                kelas.methods.Add(methodName);
+                            }
+                            else
+                            {
+                                string[] lineArr = line.Split(' ');
+                                var variableName = "int " + lineArr[Array.FindIndex(lineArr, row => row.Contains("int")) + 1];
+                                kelas.variables.Add(variableName);
+                            }
+                        }
+                        else if (Regex.IsMatch(line, @" string ") && line != null)
+                        {
+                            if (line.Contains("("))
+                            {
+                                int indexStart = line.IndexOf("string ");
+                                int indexStop = line.IndexOf(")") - indexStart + 1;
+                                var methodName = line.Substring(indexStart, indexStop);
+                                kelas.methods.Add(methodName);
+                            }
+                            else
+                            {
+                                string[] lineArr = line.Split(' ');
+                                var variableName = "string " + lineArr[Array.FindIndex(lineArr, row => row.Contains("string")) + 1];
+                                kelas.variables.Add(variableName);
+                            }
+                        }
+                        else if (Regex.IsMatch(line, @" double ") && line != null)
+                        {
+                            if (line.Contains("("))
+                            {
+                                int indexStart = line.IndexOf("double ");
+                                int indexStop = line.IndexOf(")") - indexStart + 1;
+                                var methodName = line.Substring(indexStart, indexStop);
+                                kelas.methods.Add(methodName);
+                            }
+                            else
+                            {
+                                string[] lineArr = line.Split(' ');
+                                var variableName = "double " + lineArr[Array.FindIndex(lineArr, row => row.Contains("double")) + 1];
+                                kelas.variables.Add(variableName);
+                            }
+                        }
+                        else if (Regex.IsMatch(line, @" boolean ") && line != null)
+                        {
+                            if (line.Contains("("))
+                            {
+                                int indexStart = line.IndexOf("boolean ");
+                                int indexStop = line.IndexOf(")") - indexStart + 1;
+                                var methodName = line.Substring(indexStart, indexStop);
+                                kelas.methods.Add(methodName);
+                            }
+                            else
+                            {
+                                string[] lineArr = line.Split(' ');
+                                var variableName = "boolean " + lineArr[Array.FindIndex(lineArr, row => row.Contains("boolean")) + 1];
+                                kelas.variables.Add(variableName);
+                            }
+                        }
+
+                        else if (Regex.IsMatch(line, @" void ") && line != null)
+                        {
+                            int indexStart = line.IndexOf("void");
+                            int indexStop = line.IndexOf(")") - indexStart + 1;
+                            var methodName = line.Substring(indexStart, indexStop);
+                            kelas.methods.Add(methodName);
+                        }
+
+                    }
+                    ClassCollection.Add(kelas);
+                }
+
+
                 List<ClassDataType> ClassCollectionTemp = new List<ClassDataType>();
 
                 foreach (var item in ClassCollection)
@@ -168,6 +414,9 @@ namespace VisualizeSourceCode
                     Console.WriteLine(item.id);
                     Console.WriteLine("nama class : " + item.className);
                     Console.WriteLine("superClass : " + item.superClass);
+                    Console.WriteLine(string.Format("variable list: ({0}).", string.Join(", ", item.variables)));
+                    Console.WriteLine(string.Format("methods list: ({0}).", string.Join(", ", item.methods)));
+
 
                     if (item.superClass.Any())
                     {
@@ -187,11 +436,11 @@ namespace VisualizeSourceCode
                 {
                     if (!item.superClass.Any())
                     {
-                        dgv_sourceCode.Rows.Add(item.className, "", item.id, item.target);
+                        dgv_sourceCode.Rows.Add(item.className, string.Join(", ", item.variables), string.Join(", ", item.methods), "", item.id, item.target);
                     }
                     else
                     {
-                        dgv_sourceCode.Rows.Add(item.className, item.superClass, item.id, item.target);
+                        dgv_sourceCode.Rows.Add(item.className, string.Join(", ", item.variables), string.Join(", ", item.methods), item.superClass, item.id, item.target);
                     }
 
                 }
@@ -202,7 +451,7 @@ namespace VisualizeSourceCode
                 xmlDocuments.Add("<Nodes>");
                 foreach (var item in ClassCollection)
                 {
-                    xmlDocuments.Add($"<Node id=\"{item.id}\" name=\"{item.className}\" />");
+                    xmlDocuments.Add($"<Node id=\"{item.id}\" name=\"{item.className}\" methods=\"{string.Join(", ", item.methods)}\" variables=\"{string.Join(", ", item.variables)}\"/>");
                 }
                 xmlDocuments.Add("</Nodes>");
                 xmlDocuments.Add("<Links>");
@@ -236,7 +485,7 @@ namespace VisualizeSourceCode
             {
                 diagram.Nodes.Clear();
                 Dictionary<string, DiagramNode> nodeMap = new Dictionary<string, DiagramNode>();
-                RectangleF bounds = new RectangleF(0, 0, 18, 6);
+                RectangleF bounds = new RectangleF(0, 0, 32, 48);
 
                 XmlDocument document = new XmlDocument();
                 document.Load(XMLFilePath);
@@ -247,7 +496,19 @@ namespace VisualizeSourceCode
                 {
                     ShapeNode diagramNode = diagram.Factory.CreateShapeNode(bounds);
                     nodeMap[node.GetAttribute("id")] = diagramNode;
-                    diagramNode.Text = node.GetAttribute("name");
+                    if (node.GetAttribute("variables") == "")
+                    {
+                        diagramNode.Text = node.GetAttribute("name") + "\n\nmethods : " + node.GetAttribute("methods");
+                    } else
+                    {
+                        diagramNode.Text = node.GetAttribute("name") + "\n\nvariables : " + node.GetAttribute("variables") + "\n\nmethods : " + node.GetAttribute("methods");
+                    }
+
+                    // text align center
+                    StringFormat format1 = new StringFormat(StringFormatFlags.NoClip);
+                    format1.LineAlignment = StringAlignment.Near;
+                    format1.Alignment = StringAlignment.Center;
+                    diagramNode.TextFormat(format1);
                 }
 
                 // Load link data
@@ -256,12 +517,13 @@ namespace VisualizeSourceCode
                 {
                     diagram.Factory.CreateDiagramLink(
                         nodeMap[link.GetAttribute("origin")],
-                        nodeMap[link.GetAttribute("target")]);
+                        nodeMap[link.GetAttribute("target")]);                    
                 }
 
                 // Arrange the graph
                 LayeredLayout layout = new LayeredLayout();
-                layout.LayerDistance = 16;
+                layout.LayerDistance = 32;
+                layout.NodeDistance = 48;
                 layout.Arrange(diagram);
             }
             catch (Exception ex)
@@ -274,6 +536,7 @@ namespace VisualizeSourceCode
         private void btnReset_Click(object sender, EventArgs e)
         {
             ClassCollection.Clear();
+            classStrings.Clear();
             xmlDocuments.Clear();
             dgv_sourceCode.Rows.Clear();
             txtBox_sourceCode.Clear();
@@ -289,10 +552,10 @@ namespace VisualizeSourceCode
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     var classCollectionCSV = new List<string>();
-                    classCollectionCSV.Add("Class Name,Super Class Name,Class ID,Class Target");
+                    classCollectionCSV.Add("Class Name,Variables,Methods,Super Class Name,Class ID,Class Target");
                     foreach (var item in ClassCollection)
                     {
-                        classCollectionCSV.Add($"{item.className},{item.superClass},{item.id},{item.target}");
+                        classCollectionCSV.Add($"{item.className},{string.Join("; ", item.variables)},{string.Join("; ", item.methods)},{item.superClass},{item.id},{item.target}");
                     }
                     File.WriteAllLines(sfd.FileName, classCollectionCSV);
 

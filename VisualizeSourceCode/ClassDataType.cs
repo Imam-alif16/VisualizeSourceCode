@@ -7,11 +7,17 @@ using System.Threading.Tasks;
 namespace VisualizeSourceCode
 {
     internal class ClassDataType
-    {
+    {        
         public int id { get; set; }
         public int target { get; set; }
         public string className { get; set; }
         public string superClass { get; set; }
+        
+        //public List<string> variables { get; set; }
+        public List<string> variables = new List<string>();
+
+        //public List<string> methods { get; set; }
+        public List<string> methods = new List<string>();
 
         public ClassDataType(string aClassName, string aSuperClass)
         {

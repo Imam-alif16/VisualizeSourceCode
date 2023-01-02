@@ -46,6 +46,8 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.dgv_sourceCode = new System.Windows.Forms.DataGridView();
             this.className = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.variables = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.methods = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.superClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.target = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -80,7 +82,7 @@
             // 
             this.groupBox1.Controls.Add(this.rb_csharp);
             this.groupBox1.Controls.Add(this.rb_java);
-            this.groupBox1.Location = new System.Drawing.Point(669, 7);
+            this.groupBox1.Location = new System.Drawing.Point(909, 7);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(264, 55);
             this.groupBox1.TabIndex = 5;
@@ -119,7 +121,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage3.Size = new System.Drawing.Size(920, 466);
+            this.tabPage3.Size = new System.Drawing.Size(1163, 466);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Visualize";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -137,7 +139,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(817, 5);
+            this.btnClear.Location = new System.Drawing.Point(1060, 5);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(98, 31);
             this.btnClear.TabIndex = 4;
@@ -162,7 +164,7 @@
             this.diagramView1.LicenseKey = null;
             this.diagramView1.Location = new System.Drawing.Point(5, 41);
             this.diagramView1.Name = "diagramView1";
-            this.diagramView1.Size = new System.Drawing.Size(910, 420);
+            this.diagramView1.Size = new System.Drawing.Size(1153, 420);
             this.diagramView1.TabIndex = 0;
             this.diagramView1.Text = "diagramView1";
             // 
@@ -181,7 +183,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage1.Size = new System.Drawing.Size(920, 466);
+            this.tabPage1.Size = new System.Drawing.Size(1183, 466);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Source";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -199,7 +201,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(817, 5);
+            this.btnReset.Location = new System.Drawing.Point(1060, 5);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(98, 31);
             this.btnReset.TabIndex = 3;
@@ -215,6 +217,8 @@
             this.dgv_sourceCode.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv_sourceCode.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.className,
+            this.variables,
+            this.methods,
             this.superClass,
             this.Id,
             this.target});
@@ -224,7 +228,7 @@
             this.dgv_sourceCode.ReadOnly = true;
             this.dgv_sourceCode.RowHeadersWidth = 51;
             this.dgv_sourceCode.RowTemplate.Height = 24;
-            this.dgv_sourceCode.Size = new System.Drawing.Size(537, 423);
+            this.dgv_sourceCode.Size = new System.Drawing.Size(795, 423);
             this.dgv_sourceCode.TabIndex = 2;
             // 
             // className
@@ -234,6 +238,18 @@
             this.className.MinimumWidth = 6;
             this.className.Name = "className";
             this.className.ReadOnly = true;
+            // 
+            // variables
+            // 
+            this.variables.HeaderText = "Variables";
+            this.variables.Name = "variables";
+            this.variables.ReadOnly = true;
+            // 
+            // methods
+            // 
+            this.methods.HeaderText = "Methods";
+            this.methods.Name = "methods";
+            this.methods.ReadOnly = true;
             // 
             // superClass
             // 
@@ -282,18 +298,19 @@
             // 
             this.tabControl.Controls.Add(this.tabPage1);
             this.tabControl.Controls.Add(this.tabPage3);
-            this.tabControl.Location = new System.Drawing.Point(9, 45);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tabControl.Location = new System.Drawing.Point(0, 55);
             this.tabControl.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(928, 492);
+            this.tabControl.Size = new System.Drawing.Size(1191, 492);
             this.tabControl.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(946, 547);
+            this.ClientSize = new System.Drawing.Size(1191, 547);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lbl_Title);
             this.Controls.Add(this.tabControl);
@@ -331,13 +348,15 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.DataGridView dgv_sourceCode;
-        private System.Windows.Forms.DataGridViewTextBoxColumn className;
-        private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn target;
         private System.Windows.Forms.RichTextBox txtBox_sourceCode;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn className;
+        private System.Windows.Forms.DataGridViewTextBoxColumn variables;
+        private System.Windows.Forms.DataGridViewTextBoxColumn methods;
+        private System.Windows.Forms.DataGridViewTextBoxColumn superClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn target;
     }
 }
 
