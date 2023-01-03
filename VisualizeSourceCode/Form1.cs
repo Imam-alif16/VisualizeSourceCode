@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using MindFusion.Diagramming.Fluent;
 using DocumentFormat.OpenXml.ExtendedProperties;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 
 namespace VisualizeSourceCode
 {
@@ -304,7 +305,7 @@ namespace VisualizeSourceCode
 
 
                         // menentukan properti                        
-                        if (line.Contains($"{kelas.className}("))
+                        if (line.Contains($"{kelas.className}(") && !line.Contains("return"))
                         {
                             Console.WriteLine("constuctor line : " + line);
                             int indexStart = line.IndexOf($"{kelas.className}(");
@@ -389,9 +390,8 @@ namespace VisualizeSourceCode
                     ClassCollection.Add(kelas);
                 }
 
-
+                // other class add
                 List<ClassDataType> ClassCollectionTemp = new List<ClassDataType>();
-
                 foreach (var item in ClassCollection)
                 {
                     int inc = 1;
@@ -406,7 +406,6 @@ namespace VisualizeSourceCode
                         }
                     }
                 }
-
                 ClassCollection.AddRange(ClassCollectionTemp);
 
                 foreach (var item in ClassCollection)
@@ -417,7 +416,6 @@ namespace VisualizeSourceCode
                     Console.WriteLine(string.Format("variable list: ({0}).", string.Join(", ", item.variables)));
                     Console.WriteLine(string.Format("methods list: ({0}).", string.Join(", ", item.methods)));
 
-
                     if (item.superClass.Any())
                     {
                         foreach (var itemclass in ClassCollection)
@@ -425,9 +423,39 @@ namespace VisualizeSourceCode
                             if (item.superClass == itemclass.className)
                             {
                                 item.target = itemclass.id;
+
+                                foreach (var method in item.methods)
+                                {
+                                    foreach (var aMethod in itemclass.methods)
+                                    {
+                                        if (method == aMethod)
+                                        {
+                                            Console.WriteLine("sama ges");
+                                            Console.WriteLine(method + " - " + aMethod);
+                                            int i = item.methods.Select((element, index) => new { element, index }).FirstOrDefault(x => x.element.Equals(method))?.index ?? -1;
+                                            int j = itemclass.methods.Select((element, index) => new { element, index }).FirstOrDefault(x => x.element.Equals(aMethod))?.index ?? -1;
+                                            item.methodId.Add(i);
+                                            item.methodTarget.Add(j);
+                                        }
+                                    }
+                                }
+                                item.methodId = item.methodId.Distinct().ToList();
+                                item.methodTarget = item.methodTarget.Distinct().ToList();
+
+                                foreach (var methodIndex in item.methodId)
+                                {
+                                    item.methodParameter.Add(item.methods[methodIndex]);
+                                }
                             }
+
+                            //var res = item.methods.Intersect(itemclass.);
                         }
+
                     }
+
+                    Console.WriteLine(string.Format("methodsID list: ({0}).", string.Join(", ", item.methodId)));
+                    Console.WriteLine(string.Format("methodsTarget list: ({0}).", string.Join(", ", item.methodTarget)));
+                    Console.WriteLine(string.Format("methodsParameter list: ({0}).", string.Join(", ", item.methodParameter)));
                 }
 
                 /*ClassesData.DataSource = ClassCollection;
@@ -440,7 +468,7 @@ namespace VisualizeSourceCode
                     }
                     else
                     {
-                        dgv_sourceCode.Rows.Add(item.className, string.Join(", ", item.variables), string.Join(", ", item.methods), item.superClass, item.id, item.target);
+                        dgv_sourceCode.Rows.Add(item.className, string.Join(", ", item.variables), string.Join(", ", item.methods), item.superClass, item.id, item.target, string.Join(", ", item.methodId), string.Join(", ", item.methodTarget), string.Join(", ", item.methodParameter));
                     }
 
                 }
@@ -459,7 +487,7 @@ namespace VisualizeSourceCode
                 {
                     if (item.superClass.Any())
                     {
-                        xmlDocuments.Add($"<Link origin=\"{item.id}\" target=\"{item.target}\" />");
+                        xmlDocuments.Add($"<Link origin=\"{item.id}\" target=\"{item.target}\" parameter=\"{string.Join(", ", item.methodParameter)}\" />");
                     }
                 }
                 xmlDocuments.Add("</Links>");
@@ -499,7 +527,8 @@ namespace VisualizeSourceCode
                     if (node.GetAttribute("variables") == "")
                     {
                         diagramNode.Text = node.GetAttribute("name") + "\n\nmethods : " + node.GetAttribute("methods");
-                    } else
+                    }
+                    else
                     {
                         diagramNode.Text = node.GetAttribute("name") + "\n\nvariables : " + node.GetAttribute("variables") + "\n\nmethods : " + node.GetAttribute("methods");
                     }
@@ -517,7 +546,19 @@ namespace VisualizeSourceCode
                 {
                     diagram.Factory.CreateDiagramLink(
                         nodeMap[link.GetAttribute("origin")],
-                        nodeMap[link.GetAttribute("target")]);                    
+                        nodeMap[link.GetAttribute("target")]);
+                }
+
+                foreach (XmlElement link in links)
+                {
+                    foreach (var nodeLink in diagram.Links)
+                    {
+                        if (nodeLink.Origin == nodeMap[link.GetAttribute("origin")] && nodeMap[link.GetAttribute("target")] == nodeLink.Destination)
+                        {
+                            Console.WriteLine("sama");
+                            nodeLink.Text = link.GetAttribute("parameter");
+                        }
+                    }
                 }
 
                 // Arrange the graph
@@ -577,6 +618,11 @@ namespace VisualizeSourceCode
                     image.Dispose();
                 }
             }
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
