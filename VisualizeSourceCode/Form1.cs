@@ -593,10 +593,10 @@ namespace VisualizeSourceCode
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     var classCollectionCSV = new List<string>();
-                    classCollectionCSV.Add("Class Name,Variables,Methods,Super Class Name,Class ID,Class Target");
+                    classCollectionCSV.Add("Class Name,Variables,Methods,Super Class Name,Class ID,Class Target,Method ID,Method Target,Method Parameter");
                     foreach (var item in ClassCollection)
                     {
-                        classCollectionCSV.Add($"{item.className},{string.Join("; ", item.variables)},{string.Join("; ", item.methods)},{item.superClass},{item.id},{item.target}");
+                        classCollectionCSV.Add($"{item.className},{string.Join("; ", item.variables)},{string.Join("; ", item.methods)},{item.superClass},{item.id},{item.target},{string.Join("; ", item.methodId)},{string.Join("; ", item.methodTarget)},{string.Join("; ", item.methodParameter)}");
                     }
                     File.WriteAllLines(sfd.FileName, classCollectionCSV);
 
