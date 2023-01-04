@@ -487,7 +487,7 @@ namespace VisualizeSourceCode
                     classCollectionCSV.Add("Class Name,Variables,Methods,Super Class Name,Class ID,Class Target,Method ID,Method Target,Method Parameter");
                     foreach (var item in ClassCollection)
                     {
-                        classCollectionCSV.Add($"{item.className},{string.Join("; ", item.variables)},{string.Join("; ", item.methods)},{item.superClass},{item.id},{item.target},{string.Join("; ", item.methodId)},{string.Join("; ", item.methodTarget)},{string.Join("; ", item.methodParameter)}");
+                        classCollectionCSV.Add($"{item.className},{string.Join("; ", item.variables)},{string.Join("; ", item.methods).Replace(',','.')},{item.superClass},{item.id},{item.target},{string.Join("; ", item.methodId)},{string.Join("; ", item.methodTarget)},{string.Join("; ", item.methodParameter).Replace(',', '.')}");
                     }
                     File.WriteAllLines(sfd.FileName, classCollectionCSV);
 
