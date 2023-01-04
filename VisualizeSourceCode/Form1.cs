@@ -321,8 +321,8 @@ namespace VisualizeSourceCode
                                     {
                                         if (method == aMethod)
                                         {
-                                            Console.WriteLine("sama ges");
-                                            Console.WriteLine(method + " - " + aMethod);
+                                            //Console.WriteLine("sama ges");
+                                            //Console.WriteLine(method + " - " + aMethod);
                                             int i = item.methods.Select((element, index) => new { element, index }).FirstOrDefault(x => x.element.Equals(method))?.index ?? -1;
                                             int j = itemclass.methods.Select((element, index) => new { element, index }).FirstOrDefault(x => x.element.Equals(aMethod))?.index ?? -1;
                                             item.methodId.Add(i);
@@ -446,7 +446,7 @@ namespace VisualizeSourceCode
                     {
                         if (nodeLink.Origin == nodeMap[link.GetAttribute("origin")] && nodeMap[link.GetAttribute("target")] == nodeLink.Destination)
                         {
-                            Console.WriteLine("sama");
+                            //Console.WriteLine("sama");
                             nodeLink.Text = link.GetAttribute("parameter");
                         }
                     }
