@@ -13,10 +13,8 @@ namespace VisualizeSourceCode
         public string className { get; set; }
         public string superClass { get; set; }
 
-        //public List<string> variables { get; set; }
         public List<string> variables = new List<string>();
-
-        //public List<string> methods { get; set; }
+        
         public List<string> methods = new List<string>();
 
         public List<int> methodTarget = new List<int>();
